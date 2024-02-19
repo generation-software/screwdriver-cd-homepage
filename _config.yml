@@ -1,6 +1,7 @@
 
 # Site settings
-url: http://screwdriver.cd
+baseurl: "/screwdriver-cd-homepage"
+url: "https://qubitpi.github.io"
 title: screwdriver.cd
 analytics: UA-88158708-2
 
