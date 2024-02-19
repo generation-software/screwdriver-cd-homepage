@@ -1,0 +1,36 @@
+# Copyright Jiaqi Liu
+---
+name: CI/CD
+
+'on':
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  homepage-build:
+    name: Tests Homepage Build
+    outputs:
+      outcome: ${{ job.status }}
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+      - run: |
+          gem install jekyll
+          bundle install
+          bundle exec jekyll build
+
+  slack-notification:
+    name: Send Slack Notification
+    if: ${{ always() }}
+    needs: homepage-build
+    uses: QubitPi/hashicorp-aws/.github/workflows/slack-notification.yml@master
+    with:
+      job-status: ${{ needs.homepage-build.outputs.outcome }}
+    secrets:
+      slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
