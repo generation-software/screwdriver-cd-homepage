@@ -2,6 +2,10 @@ body {
     padding-top: 70px;
 }
 
+.site-banner {
+    z-index: 999;
+}
+
 .layer {
     background-color: rgba(0, 0, 0, 0.5);
     top: 0;
