@@ -1,4 +1,4 @@
-# Copyright Jiaqi Liu
+# Copyright 2025 Jiaqi Liu. All rights reserved.
 ---
 name: CI/CD
 
@@ -11,9 +11,6 @@ name: CI/CD
 jobs:
   homepage-build:
     name: Tests Homepage Build
-    outputs:
-      outcome: ${{ job.status }}
-    continue-on-error: true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -24,13 +21,3 @@ jobs:
           gem install jekyll
           bundle install
           bundle exec jekyll build
-
-  slack-notification:
-    name: Send Slack Notification
-    if: ${{ always() }}
-    needs: homepage-build
-    uses: QubitPi/hashicorp-aws/.github/workflows/slack-notification.yml@master
-    with:
-      job-status: ${{ needs.homepage-build.outputs.outcome }}
-    secrets:
-      slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}

@@ -5,3 +5,4 @@ artifacts/
 _site/
 .jekyll-cache/
 ./vendor/
+.idea
